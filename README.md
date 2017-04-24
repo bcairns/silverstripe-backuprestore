@@ -8,7 +8,12 @@ This module provides a CMS panel (for Admins only) with buttons to Backup and Re
 
 Ideal for when you need to pull down a copy of the live database but don't have direct access.
 
-This module does NOT require mysqldump command-line utility, unlike other similar modules.
+This module does NOT require mysqldump command-line utility, unlike some other similar modules.
+
+
+## File Locations
+
+This module stores database dump files in /assets/_db, and it creates an .htacess file to prevent web access.
 
 
 ## Planned Improvements
@@ -18,4 +23,4 @@ This module does NOT require mysqldump command-line utility, unlike other simila
 
 ## Acknowledgements
 
-* This module borrows heavily from Drupal's Backup & Migrate module.
+* This module borrows heavily from Drupal's [Backup and Migrate](https://www.drupal.org/project/backup_migrate) module.
