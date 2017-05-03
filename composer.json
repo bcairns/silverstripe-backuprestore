@@ -1,0 +1,24 @@
+{
+	"name": "bcairns/silverstripe-backuprestore",
+	"description": "Simple one-click backup & restore of SilverStripe MySQL databases from within the CMS.",
+	"type": "silverstripe-module",
+	"homepage": "http://github.com/bcairns/silverstripe-backuprestore",
+	"keywords": ["silverstripe", "deployment", "database", "staging", "backup", "restore", "download", "upload", "mysql", "dump"],
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Brian Cairns",
+			"email": "bcairns@gmail.com"
+		}
+	],
+	"support": {
+		"issues": "http://github.com/bcairns/silverstripe-backuprestore/issues"
+	},
+	"require": {
+		"silverstripe/framework": ">=3.1.0"
+	},
+	"extra": {
+		"installer-name": "backuprestore"
+	},
+	"target-dir": "backuprestore"
+}
