@@ -1,0 +1,5 @@
+---
+name: backuprestore
+---
+LeftAndMain:
+  extra_requirements_css: [backuprestore/css/backuprestore.css]

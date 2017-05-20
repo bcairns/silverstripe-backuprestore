@@ -1,0 +1,9 @@
+#Menu-BackupRestore .icon-backuprestore{
+	background-size: 16px 16px;
+}
+
+#backuprestore-cms-content .livewarning{
+	background: url(../../cms/images/dialogs/alert.png) 7px center no-repeat;
+	background-size: 24px 24px;
+	padding-left: 35px;
+}
