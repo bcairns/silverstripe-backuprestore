@@ -28,7 +28,7 @@
 				<h2>Restore</h2>
 
 				<% if $IsLive %>
-					<p class="message warning">WARNING: Do not overwrite Live database unless you are sure!</p>
+					<p class="message warning" style="background:url(../../cms/images/dialogs/alert.png) 7px center no-repeat;background-size:24px 24px;padding-left:35px"><strong>CRITICAL WARNING:</strong> Do not overwrite Live database unless you are 100% sure!</p>
 				<% end_if %>
 
 				<% if $RestoreMessage %>
