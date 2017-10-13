@@ -15,7 +15,7 @@
 
 
 		<fieldset class="field">
-			<form class="cms-panel-padded" method="POST" action="/admin/backuprestore/backup">
+			<form class="cms-panel-padded" method="POST" action="admin/backuprestore/backup">
 				<h2>Backup</h2>
 				<p>This will download a backup copy of the database.</p>
 				<button>Download Backup File</button>
@@ -23,7 +23,7 @@
 		</fieldset>
 
 		<fieldset class="field">
-			<form class="cms-panel-padded" method="POST" action="/admin/backuprestore/restore" enctype="multipart/form-data">
+			<form class="cms-panel-padded" method="POST" action="admin/backuprestore/restore" enctype="multipart/form-data">
 
 				<h2>Restore</h2>
 
