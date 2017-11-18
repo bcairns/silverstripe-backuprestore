@@ -334,60 +334,64 @@ TEXT;
 	function _dump_table_data_sql_to_file($f, $table) {
 
 		// todo: config values for these
+		$rows_per_query = 500; // rows to read at a time from the DB
 		$rows_per_line = 30;
 		$bytes_per_line = 2000;
 
+		$totalRows = $this->queryValue("SELECT count(1) FROM `". $table['name'] ."`");
+		$offset = 0;
 		$lines = 0;
-		$data = $this->query("SELECT * FROM `". $table['name'] ."`", array(), array('fetch' => PDO::FETCH_ASSOC));
-		$rows = $bytes = 0;
 
-		// Escape backslashes, PHP code, special chars
-		$search = array('\\', "'", "\x00", "\x0a", "\x0d", "\x1a");
-		$replace = array('\\\\', "''", '\0', '\n', '\r', '\Z');
+		while( $offset < $totalRows ){
 
-		$line = array();
-		foreach ($data as $row) {
-			// DB Escape the values.
-			$items = array();
-			foreach ($row as $key => $value) {
-				$items[] = is_null($value) ? "null" : "'". str_replace($search, $replace, $value) ."'";
+			$results = DB::query("SELECT * FROM `". $table['name'] ."` LIMIT $offset, $rows_per_query");
+
+			$offset += $rows_per_query;
+			$rows = $bytes = 0;
+
+			// Escape backslashes, PHP code, special chars
+			$search = array('\\', "'", "\x00", "\x0a", "\x0d", "\x1a");
+			$replace = array('\\\\', "''", '\0', '\n', '\r', '\Z');
+
+			foreach ($results as $row) {
+				// DB Escape the values.
+				$items = array();
+				foreach ($row as $key => $value) {
+					$items[] = is_null($value) ? "null" : "'". str_replace($search, $replace, $value) ."'";
+				}
+
+				// If there is a row to be added.
+				if ($items) {
+					// Start a new line if we need to.
+					if ($rows == 0) {
+						fwrite($f, "INSERT INTO `". $table['name'] ."` VALUES ");
+						$bytes = $rows = 0;
+					}
+					// Otherwise add a comma to end the previous entry.
+					else {
+						fwrite($f, ",");
+					}
+
+					// Write the data itself.
+					$sql = implode(',', $items);
+					fwrite($f, '('. $sql .')');
+					$bytes += strlen($sql);
+					$rows++;
+
+					// Finish the last line if we've added enough items
+					if ($rows >= $rows_per_line || $bytes >= $bytes_per_line) {
+						fwrite($f, ";\n");
+						$lines++;
+						$bytes = $rows = 0;
+					}
+				}
+			}
+			// Finish any unfinished insert statements.
+			if ($rows > 0) {
+				fwrite($f, ";\n");
+				$lines++;
 			}
 
-			// If there is a row to be added.
-			if ($items) {
-				// Start a new line if we need to.
-				if ($rows == 0) {
-					//$file->write("INSERT INTO `". $table['name'] ."` VALUES ");
-					fwrite($f, "INSERT INTO `". $table['name'] ."` VALUES ");
-					$bytes = $rows = 0;
-				}
-				// Otherwise add a comma to end the previous entry.
-				else {
-					//$file->write(",");
-					fwrite($f, ",");
-				}
-
-				// Write the data itself.
-				$sql = implode(',', $items);
-				//$file->write('('. $sql .')');
-				fwrite($f, '('. $sql .')');
-				$bytes += strlen($sql);
-				$rows++;
-
-				// Finish the last line if we've added enough items
-				if ($rows >= $rows_per_line || $bytes >= $bytes_per_line) {
-					//$file->write(";\n");
-					fwrite($f, ";\n");
-					$lines++;
-					$bytes = $rows = 0;
-				}
-			}
-		}
-		// Finish any unfinished insert statements.
-		if ($rows > 0) {
-			//$file->write(";\n");
-			fwrite($f, ";\n");
-			$lines++;
 		}
 
 		return $lines;
