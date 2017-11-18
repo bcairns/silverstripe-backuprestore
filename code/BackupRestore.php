@@ -105,7 +105,6 @@ TEXT;
 			header("Content-Transfer-Encoding: Binary");
 			header("Content-Disposition: attachment; filename=\"" . $downloadName . "\"");
 
-			//header('Content-Type: '.HTTP::get_mime_type( $path ) );
 			header('Content-Length: '.filesize( $path ) );
 			readfile( $path );
 			exit;
@@ -149,24 +148,18 @@ TEXT;
 	function _restore_db_from_file($path) {
 		$num = 0;
 
-		//if ($file->open() && $conn = $this->_get_db_connection()) {
 		if ($f = fopen($path, 'r') ) {
 			// Read one line at a time and run the query.
-			//while ($line = $this->_read_sql_command_from_file($file)) {
 			while ($line = $this->_read_sql_command_from_file($f)) {
 				if ($line) {
-					// Prepeare and execute the statement instead of the api function to avoid substitution of '{' etc.
-					//$stmt = $conn->prepare($line);
-					//$stmt->execute();
+					// Prepare and execute the statement instead of the api function to avoid substitution of '{' etc.
 					$this->query($line);
 
 					$num++;
 				}
 			}
 			// Close the file with fclose/gzclose.
-			//$file->close();
 			fclose($f);
-			//Debug::log("restored!");
 		}
 		else {
 			Debug::log("unable to open file");
@@ -182,7 +175,6 @@ TEXT;
 	 */
 	function _read_sql_command_from_file($f) {
 		$out = '';
-		//while ($line = $file->read()) {
 		while ($line = fgets($f)) {
 			$first2 = substr($line, 0, 2);
 			$first3 = substr($line, 0, 2);
@@ -231,11 +223,7 @@ TEXT;
 	 *  The files are a little harder to read, but human-readability is not a priority
 	 */
 	function _backup_db_to_file($path) {
-
-		$lines = 0;
-		//if ($file->open(TRUE)) {
 		if ($f = fopen($path,'w+')) {
-
 			$this->_write_db_to_file($f);
 			fclose($f);
 			return TRUE;
@@ -271,12 +259,9 @@ TEXT;
 	 * Get a list of tables in the db.
 	 */
 	function _get_tables() {
-
-		// todo: handle query
-
 		$out = array();
 		// get auto_increment values and names of all tables
-		$tables = $this->query("show table status", array(), array('fetch' => PDO::FETCH_ASSOC));
+		$tables = $this->query("show table status");
 		foreach ($tables as $table) {
 			$table = array_change_key_case($table);
 			if (!empty($table['engine'])) {
@@ -290,13 +275,9 @@ TEXT;
 	 * Get a list of views in the db.
 	 */
 	function _get_views() {
-
-		// todo: handle query
-
-
 		$out = array();
 		// get auto_increment values and names of all tables
-		$tables = $this->query("show table status", array(), array('fetch' => PDO::FETCH_ASSOC));
+		$tables = $this->query("show table status");
 		foreach ($tables as $table) {
 			$table = array_change_key_case($table);
 			if (empty($table['engine'])) {
@@ -310,11 +291,8 @@ TEXT;
 	 * Get the sql for the structure of the given table.
 	 */
 	function _get_table_structure_sql($table) {
-
-		// todo: handle query
-
 		$out = "";
-		$result = $this->query("SHOW CREATE TABLE `". $table['name'] ."`", array(), array('fetch' => PDO::FETCH_ASSOC));
+		$result = $this->query("SHOW CREATE TABLE `". $table['name'] ."`");
 		foreach ($result as $create) {
 			$create = array_change_key_case($create);
 			$out .= "DROP TABLE IF EXISTS `". $table['name'] ."`;\n";
@@ -405,7 +383,6 @@ TEXT;
 		$out = "";
 		// Switch SQL mode to get rid of "CREATE ALGORITHM..." what requires more permissions + troubles with the DEFINER user
 
-		//$sql_mode = $this->query("SELECT @@SESSION.sql_mode")->fetchField();
 		$sql_mode = $this->queryValue("SELECT @@SESSION.sql_mode");
 
 		$this->query("SET sql_mode = 'ANSI'");
