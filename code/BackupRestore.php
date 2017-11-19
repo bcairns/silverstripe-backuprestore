@@ -5,6 +5,8 @@
  */
 class BackupRestore extends LeftAndMain {
 
+	private static $version = 'dev-master';
+
 	private static $allowed_actions = array(
 		'backup',
 		'restore'
@@ -406,16 +408,22 @@ TEXT;
 
 		// todo: fill in all the placeholders
 
-		return "-- Backup and Migrate (Drupal) MySQL Dump
--- Backup/Restore Version: {BR VERSION}
+		$module_version = self::$version;
+		$ss_version = $this->CMSVersion();
+		$host = $_SERVER['HTTP_HOST'];
+		$site_name = $this->SiteConfig()->Title;
+		$mysql_version = $this->queryValue('SELECT @@VERSION');
+
+		return "-- Backup/Restore (Silverstripe) MySQL Dump
+-- Backup/Restore Version: $module_version
 -- https://github.com/bcairns/silverstripe-backuprestore
--- SilverStripe Version: {SS VERSION}
+-- SilverStripe Version: $ss_version
 -- http://silverstripe.org/
 --
--- Host: {HOST}
--- Site Name: {SITE NAME}
+-- Host: $host
+-- Site Name: $site_name
 -- Generation Time: " . date('r') . "
--- MySQL Version: {MYSQL VERSION}
+-- MySQL Version: $mysql_version
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
