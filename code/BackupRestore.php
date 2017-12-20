@@ -300,6 +300,12 @@ TEXT;
 			$out .= "DROP TABLE IF EXISTS `". $table['name'] ."`;\n";
 			// Remove newlines and convert " to ` because PDO seems to convert those for some reason.
 			$out .= strtr($create['create table'], array("\n" => ' ', '"' => '`'));
+			if ($table['engine']) {
+				$out .= " ENGINE=". $table['engine'];
+			}
+			if ($table['collation']) {
+				$out .= " COLLATE=". $table['collation'];
+			}
 			if ($table['auto_increment']) {
 				$out .= " AUTO_INCREMENT=". $table['auto_increment'];
 			}
