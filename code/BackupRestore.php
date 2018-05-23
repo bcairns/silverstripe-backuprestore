@@ -237,12 +237,14 @@ TEXT;
 
 	function _write_db_to_file($f){
 
+		$excluded_tables = $this->config()->get('excluded_tables');
+
 		fwrite($f, $this->_get_sql_file_header());
 		$alltables = $this->_get_tables();
 		$allviews = $this->_get_views();
 
 		foreach ($alltables as $table) {
-			if ($table['name']) {
+			if ($table['name'] && !in_array($table['name'], $excluded_tables) ) {
 				fwrite($f, $this->_get_table_structure_sql($table));
 				$this->_dump_table_data_sql_to_file($f, $table);
 			}
