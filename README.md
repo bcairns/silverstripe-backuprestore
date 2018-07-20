@@ -10,6 +10,17 @@ Ideal for when you need to pull down a copy of the live database but don't have 
 
 This module does NOT require mysqldump command-line utility, unlike some other similar modules.
 
+## Usage
+
+Install via composer.  There will be a new Backup/Restore panel in the main CMS menu.
+
+There is an `excluded_tables` option which can be used to omit certain tables if needed.  Eg in `config.yml`:
+
+```
+BackupRestore:
+  excluded_tables:
+    - SubmittedFormField
+```
 
 ## File Locations
 
