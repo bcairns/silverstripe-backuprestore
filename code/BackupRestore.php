@@ -238,6 +238,9 @@ TEXT;
 	function _write_db_to_file($f){
 
 		$excluded_tables = $this->config()->get('excluded_tables');
+		if( !is_array($excluded_tables) ){
+			$excluded_tables = array();
+		}
 
 		fwrite($f, $this->_get_sql_file_header());
 		$alltables = $this->_get_tables();
