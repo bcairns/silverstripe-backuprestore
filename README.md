@@ -2,6 +2,14 @@
 
 ![Screenshot](https://raw.githubusercontent.com/bcairns/silverstripe-backuprestore/master/screenshot.png)
 
+
+## SilverStripe 4
+
+The 4.x branch contains an early version for SilverStripe 4.  It has not been widely tested yet, so please use with care.
+
+The 3.x branch contains the SilverStripe 3 version.
+
+
 ## Description
 
 This module provides a CMS panel (for Admins only) with buttons to Backup and Restore the current database.
