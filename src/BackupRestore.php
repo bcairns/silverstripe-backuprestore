@@ -1,5 +1,15 @@
 <?php
 
+namespace BCairns\BackupRestore;
+
+use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Assets\Filesystem;
+use SilverStripe\Control\Director;
+//use SilverStripe\Control\Session;
+use SilverStripe\ORM\DB;
+use SilverStripe\View\ArrayData;
+
+
 /**
  * @package siteconfig
  */
@@ -15,7 +25,12 @@ class BackupRestore extends LeftAndMain {
 	private static $required_permission_codes = array('ADMIN');
 
 	private static $menu_title = 'Backup/Restore';
-	private static $menu_icon = 'backuprestore/menuicon.png';
+
+	// I have no idea what I'm doing...
+//	private static $menu_icon = 'menuicon.png';
+//	private static $menu_icon = 'BCairns/BackupRestore/BackupRestore: menuicon.png';
+//	private static $menu_icon = 'bcairns/silverstripe-backuprestore: menuicon.png';
+
 	private static $menu_priority = -2;
 
 	private static $url_segment = 'backuprestore';
@@ -116,20 +131,23 @@ TEXT;
 	}
 
 	public function setRestoreMessage( $message, $status = 'good' ){
-		Session::set('BackupRestoreStatus', $status);
-		Session::set('BackupRestoreMessage', $message);
+	    $session = $this->getRequest()->getSession();
+        $session->set('BackupRestoreStatus', $status);
+        $session->set('BackupRestoreMessage', $message);
 	}
 
 	public function RestoreMessage() {
 
 		static $data = false;
 
-		if(Session::get('BackupRestoreMessage')) {
-			$message = Session::get('BackupRestoreMessage');
-			$status = Session::get('BackupRestoreStatus');
+        $session = $this->getRequest()->getSession();
 
-			Session::clear('BackupRestoreStatus');
-			Session::clear('BackupRestoreMessage');
+		if($session->get('BackupRestoreMessage')) {
+			$message = $session->get('BackupRestoreMessage');
+			$status = $session->get('BackupRestoreStatus');
+
+            $session->clear('BackupRestoreStatus');
+            $session->clear('BackupRestoreMessage');
 
 			$data = new ArrayData(array('Message' => $message, 'Status' => $status));
 		}
@@ -164,7 +182,8 @@ TEXT;
 			fclose($f);
 		}
 		else {
-			Debug::log("unable to open file");
+		    error_log("unable to open file");
+//			Debug::log("unable to open file");
 			return false;
 		}
 		return $num;

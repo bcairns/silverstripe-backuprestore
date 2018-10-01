@@ -1,5 +1,6 @@
 ---
 name: backuprestore
 ---
-LeftAndMain:
-  extra_requirements_css: [backuprestore/css/backuprestore.css]
+#SilverStripe\Admin\LeftAndMain:
+#  extra_requirements_css:
+#    - 'bcairns/BackupRestore/BackupRestore:css/backuprestore.css'
