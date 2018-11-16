@@ -22,6 +22,13 @@ BackupRestore:
     - SubmittedFormField
 ```
 
+There is also a `fulltext_myisam` option.  This will force any tables with a FULLTEXT index to use MYISAM table type. This may be necessary if you are using a version of MySQL older than 5.6, as only MYISAM supports FULLTEXT prior to 5.6.
+
+```
+BackupRestore:
+  fulltext_myisam: true
+```
+
 ## File Locations
 
 This module stores database dump files in /assets/_db, and it creates an .htacess file to prevent web access.

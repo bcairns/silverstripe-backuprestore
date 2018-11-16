@@ -300,12 +300,16 @@ TEXT;
 	function _get_table_structure_sql($table) {
 		$out = "";
 		$result = $this->query("SHOW CREATE TABLE `". $table['name'] ."`");
+		$fulltext_myisam = $this->config()->get('fulltext_myisam');
 		foreach ($result as $create) {
 			$create = array_change_key_case($create);
 			$out .= "DROP TABLE IF EXISTS `". $table['name'] ."`;\n";
 			// Remove newlines and convert " to ` because PDO seems to convert those for some reason.
 			$out .= strtr($create['create table'], array("\n" => ' ', '"' => '`'));
 			if ($table['engine']) {
+				if( $fulltext_myisam && strpos( $create['create table'], 'FULLTEXT' ) ){
+					$table['engine'] = 'MYISAM';
+				}
 				$out .= " ENGINE=". $table['engine'];
 			}
 			if ($table['collation']) {
