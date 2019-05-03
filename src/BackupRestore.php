@@ -5,7 +5,7 @@ namespace BCairns\BackupRestore;
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Assets\Filesystem;
 use SilverStripe\Control\Director;
-//use SilverStripe\Control\Session;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DB;
 use SilverStripe\View\ArrayData;
 
@@ -15,7 +15,7 @@ use SilverStripe\View\ArrayData;
  */
 class BackupRestore extends LeftAndMain {
 
-	private static $version = 'dev-master';
+	private static $version = '4.x';
 
 	private static $allowed_actions = array(
 		'backup',
@@ -26,23 +26,27 @@ class BackupRestore extends LeftAndMain {
 
 	private static $menu_title = 'Backup/Restore';
 
-//	private static $menu_icon = 'menuicon.png';
+	private static $menu_icon = 'public/resources/vendor/bcairns/silverstripe-backuprestore/images/menuicon.png';
 
 	private static $menu_priority = -2;
 
 	private static $url_segment = 'backuprestore';
 
+	private static $db_temp_dir = '../app/_db';
+	private static $create_htaccess = true;
+
 
 	public static function getPath(){
-		return '../assets/_db/';
-	}
+        return Config::inst()->get(self::class, 'db_temp_dir') . '/';
+    }
 
 	// make DB folder and add .htaccess if needed
 	public static function makeFolder(){
 		if( !file_exists(self::getPath()) ){
 			Filesystem::makeFolder(self::getPath());
 		}
-		if( !file_exists(self::getPath().'.htaccess') ){
+		if( Config::inst()->get(self::class, 'create_htaccess') &&
+		    !file_exists(self::getPath().'.htaccess') ){
 			$content = <<<TEXT
 <Files *>
 	Order deny,allow

@@ -1,13 +1,12 @@
 # SilverStripe Backup/Restore
 
-![Screenshot](https://raw.githubusercontent.com/bcairns/silverstripe-backuprestore/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/bcairns/silverstripe-backuprestore/4.x/screenshot.png)
 
 
-## SilverStripe 4
+## Versions
 
-The 4.x branch contains an early version for SilverStripe 4.  It has not been widely tested yet, so please use with care.
-
-The 3.x branch contains the SilverStripe 3 version.
+- The 4.x branch contains the SilverStripe 4 version.
+- The 3.x branch contains the SilverStripe 3 version.
 
 
 ## Description
@@ -22,23 +21,37 @@ This module does NOT require mysqldump command-line utility, unlike some other s
 
 Install via composer.  There will be a new Backup/Restore panel in the main CMS menu.
 
-There is an `excluded_tables` option which can be used to omit certain tables if needed.  Eg in `config.yml`:
+- Under "Backup", click "Download Backup File" to download a GZIPPED database dump.  This is a standard SQL dump file that should be usable with other applications than this module.  It performs DROP TABLE on each table and then recreates them.
+- Under "Restore", click "Select File" to choose a database dump file (either gzipped or uncompressed should both work), then click "Upload Backup File" to upload and execute it.
+
+If a live environment is detected, Backup/Restore will display a very prominent alert message in the Restore section, warning against overwriting your live database.
+
+
+## Options
+
+### Excluded Tables
+
+There is an `excluded_tables` option which can be used to omit certain tables if needed.
 
 ```
-BackupRestore:
+BCairns\BackupRestore\BackupRestore:
   excluded_tables:
     - SubmittedFormField
 ```
 
-## File Locations
+### Database Temp Dir and .htaccess File
 
-This module stores database dump files in /assets/_db, and it creates an .htacess file to prevent web access.
+The module writes the DB dump to disk (on the server) for compression and download.
 
+By default, it will write to "../app/_db", and also will create an `.htaccess` file blocking access to the directory (as an extra precaution, even though this should typically not be web-accessible).
+  
+These can both be configured:
 
-## Planned Improvements
-
-* Add configuration options.
-* Allow for possibility of other (non-MySQL) DB backend providers.
+```
+BCairns\BackupRestore\BackupRestore:
+  db_temp_dir: "../../my_temp_dir"
+  create_htaccess: false
+```
 
 ## Acknowledgements
 

@@ -1,9 +1,19 @@
-#Menu-BackupRestore .icon-backuprestore{
+#Menu-BCairns-BackupRestore-BackupRestore .menu__icon{
 	background-size: 16px 16px;
+    width: 19px;
 }
 
-#backuprestore-cms-content .livewarning{
-	background: url(../../cms/images/dialogs/alert.png) 7px center no-repeat;
-	background-size: 24px 24px;
-	padding-left: 35px;
+#backuprestore-cms-content .livewarning .icon{
+    font-size: 14px;
+    position: relative;
+    top: 1px;
+}
+
+#backuprestore-cms-content .livewarning img{
+    margin-right: 7px;
+}
+
+#backuprestore-cms-content .livewarning span{
+    position: relative;
+    top: 1px;
 }
