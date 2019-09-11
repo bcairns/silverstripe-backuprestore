@@ -32,7 +32,7 @@ class BackupRestore extends LeftAndMain {
 
 	private static $url_segment = 'backuprestore';
 
-	private static $db_temp_dir = '../app/_db';
+	private static $db_temp_dir = 'assets/.protected/_db';
 	private static $create_htaccess = true;
 
 

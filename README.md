@@ -43,7 +43,7 @@ BCairns\BackupRestore\BackupRestore:
 
 The module writes the DB dump to disk (on the server) for compression and download.
 
-By default, it will write to "../app/_db", and also will create an `.htaccess` file blocking access to the directory (as an extra precaution, even though this should typically not be web-accessible).
+By default, it will write to "assets/.protected/_db", and also will create an `.htaccess` file blocking access to the directory (as an extra precaution, even though typically this should already not be web-accessible).
   
 These can both be configured:
 
