@@ -26,7 +26,7 @@ class BackupRestore extends LeftAndMain {
 
 	private static $menu_title = 'Backup/Restore';
 
-	private static $menu_icon = 'public/resources/vendor/bcairns/silverstripe-backuprestore/images/menuicon.png';
+	private static $menu_icon = 'bcairns/silverstripe-backuprestore:images/menuicon.png';
 
 	private static $menu_priority = -2;
 

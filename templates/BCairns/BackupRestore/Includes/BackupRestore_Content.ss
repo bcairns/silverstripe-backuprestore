@@ -30,7 +30,7 @@
 
                     <% if $IsLive %>
                         <p class="message warning livewarning">
-                            <img src="/resources/vendor/silverstripe/cms/client/dist/images/alert.gif" width="24" height="24" />
+                            <img src="$resourceURL('silverstripe/cms:client/dist/images/alert.gif')" width="24" height="24" />
                             <span><strong>CRITICAL WARNING:</strong> Do not overwrite Live database unless you are 100% sure!</span>
                         </p>
                     <% end_if %>
