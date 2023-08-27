@@ -5,6 +5,7 @@
 
 ## Versions
 
+- The 5.x branch contains the SilverStripe 5 version.
 - The 4.x branch contains the SilverStripe 4 version.
 - The 3.x branch contains the SilverStripe 3 version.
 
@@ -19,7 +20,13 @@ This module does NOT require mysqldump command-line utility, unlike some other s
 
 ## Usage
 
-Install via composer.  There will be a new Backup/Restore panel in the main CMS menu.
+Install via composer:
+
+```
+composer require bcairns/silverstripe-backuprestore
+```
+
+There will be a new Backup/Restore panel in the main CMS menu.
 
 - Under "Backup", click "Download Backup File" to download a GZIPPED database dump.  This is a standard SQL dump file that should be usable with other applications than this module.  It performs DROP TABLE on each table and then recreates them.
 - Under "Restore", click "Select File" to choose a database dump file (either gzipped or uncompressed should both work), then click "Upload Backup File" to upload and execute it.
